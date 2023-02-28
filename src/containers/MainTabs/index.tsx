@@ -8,7 +8,7 @@ import GenderList from '../GenderList';
 import { useResponse } from '../../hooks/useResponse';
 import RickAndMortyList from '../RickAndMortyList';
 import { GenderDto } from '../../interfaces/useQueryPip.interface';
-import { SelectChangeEvent } from '@mui/material';
+import { Divider, SelectChangeEvent } from '@mui/material';
 import FooComponent from '../FooComponent/FooComponent';
 
 const MainTabs: FC = () => {
@@ -39,6 +39,7 @@ const MainTabs: FC = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <FooComponent />
+      <Divider sx={{ mt: 2, mb: 1}}/>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           {
