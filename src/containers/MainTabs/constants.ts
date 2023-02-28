@@ -15,5 +15,3 @@ export const tabsValues = [
     title: 'Listado con RickAndMorty'
   }
 ]
-
-export const tabs = [0]

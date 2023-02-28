@@ -3,12 +3,13 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import TabPanel from '../../componets/Tabs/TabPanel';
-import { a11yProps, tabs, tabsValues } from './constants';
+import { a11yProps, tabsValues } from './constants';
 import GenderList from '../GenderList';
 import { useResponse } from '../../hooks/useResponse';
 import RickAndMortyList from '../RickAndMortyList';
 import { GenderDto } from '../../interfaces/useQueryPip.interface';
 import { SelectChangeEvent } from '@mui/material';
+import FooComponent from '../FooComponent/FooComponent';
 
 const MainTabs: FC = () => {
   const [value, setValue] = useState(0);
@@ -35,10 +36,9 @@ const MainTabs: FC = () => {
     }
   };
 
-
-
   return (
     <Box sx={{ width: '100%' }}>
+      <FooComponent />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           {
@@ -48,9 +48,7 @@ const MainTabs: FC = () => {
           }
         </Tabs>
       </Box>
-      {
-        tabs.map((tab) => (
-          <TabPanel value={value} index={tab} key={tab}>
+      <TabPanel value={value} index={0}>
             {
               randonUserResponse && randonUserResponse.results.length > 0 && (
                 <GenderList people={randonUserResponse.results} gender={gender}
@@ -64,8 +62,6 @@ const MainTabs: FC = () => {
               )
             }
           </TabPanel>
-        ))
-      }
       <TabPanel value={value} index={1} >
         <RickAndMortyList rickAndMortyData={rickAndMortyResponse} handleEpisode={handleEpisode} error={rickAndMortyResponseError} loading={rickAndMortyResponseStatus} character={episode} />
       </TabPanel>

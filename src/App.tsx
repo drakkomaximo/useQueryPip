@@ -1,9 +1,12 @@
 import { FC } from "react";
 import MainTabs from "./containers/MainTabs";
+import { MainProvider } from "./providers/MainProvider";
 
 const App: FC = () => {
   return (
-    <MainTabs />
+    <MainProvider>
+      <MainTabs />
+    </MainProvider>
   );
 }
 
