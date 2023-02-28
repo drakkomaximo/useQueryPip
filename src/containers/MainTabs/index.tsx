@@ -4,19 +4,37 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import TabPanel from '../../componets/Tabs/TabPanel';
 import { a11yProps, tabs, tabsValues } from './constants';
-import { queryKeysFilter } from '../../helper/queryKeysFilter.helper';
-import { useQueryPip } from '../../hooks/useQueryPip';
 import GenderList from '../GenderList';
+import { useResponse } from '../../hooks/useResponse';
+import RickAndMortyList from '../RickAndMortyList';
+import { GenderDto } from '../../interfaces/useQueryPip.interface';
+import { SelectChangeEvent } from '@mui/material';
 
 const MainTabs: FC = () => {
   const [value, setValue] = useState(0);
-  const [queryKeys, setQueryKeys] = useState('male');
-  const { data } = useQueryPip({ cacheKey: queryKeys })
+  const [gender, setGender] = useState<GenderDto>('male');
+  const [size, setSize] = useState<number>(1);
+  const [episode, setEpisode] = useState<number>(1);
+  const { randonUserResponse, rickAndMortyResponse, rickAndMortyResponseError, rickAndMortyResponseStatus, randonUserResponseError, randonUserResponseStatus } = useResponse({ gender, episode, size })
 
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    setQueryKeys(queryKeysFilter({ index: newValue }))
   };
+
+  const handleEpisode = ({ episode }: { episode: number }) => {
+    setEpisode(episode)
+  }
+
+  const handleSize = ({ size }: { size: number }) => {
+    setSize(size)
+  }
+
+  const handleGender = (event: SelectChangeEvent<GenderDto>) => {
+    if (event.target.value === 'male' || event.target.value === 'female' || event.target.value === 'others') {
+      setGender(event.target.value);
+    }
+  };
+
 
 
   return (
@@ -33,15 +51,24 @@ const MainTabs: FC = () => {
       {
         tabs.map((tab) => (
           <TabPanel value={value} index={tab} key={tab}>
-            {queryKeys}
             {
-              data && data.results.length > 0 && (
-                <GenderList people={data.results} />
+              randonUserResponse && randonUserResponse.results.length > 0 && (
+                <GenderList people={randonUserResponse.results} gender={gender}
+                  size={size}
+                  handleSize={handleSize}
+                  handleGender={handleGender}
+                  error={randonUserResponseError}
+                  loading={randonUserResponseStatus}
+                />
+
               )
             }
           </TabPanel>
         ))
       }
+      <TabPanel value={value} index={1} >
+        <RickAndMortyList rickAndMortyData={rickAndMortyResponse} handleEpisode={handleEpisode} error={rickAndMortyResponseError} loading={rickAndMortyResponseStatus} character={episode} />
+      </TabPanel>
     </Box>
   );
 }

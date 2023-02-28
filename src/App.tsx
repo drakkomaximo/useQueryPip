@@ -3,9 +3,7 @@ import MainTabs from "./containers/MainTabs";
 
 const App: FC = () => {
   return (
-    <div className="App">
-      <MainTabs />
-    </div>
+    <MainTabs />
   );
 }
 
